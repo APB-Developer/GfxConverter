@@ -1,0 +1,73 @@
+﻿; Load the image
+LOAD "Data\TestImage.png"
+
+; Grab a sprite from the image loaded: <name of sprite>, options, x, y, width, height.  if x,y,width and height are omitted the entire image will be grabbed
+; Options are
+; DATA - Exports just the data byte
+; MASK - Exports just the mask byte
+; MASK_DATA - Exports the mask byte then the data byte
+; DATA_MASK - Exports the data byte then the mask byte
+GRAB_SPRITE "Image",DATA
+GRAB_SPRITE "Frame1",DATA,0,0,16,16
+GRAB_SPRITE "Frame1Mask",MASK,0,0,16,16
+GRAB_SPRITE "Frame1Masked",MASK_DATA,0,0,16,16
+GRAB_SPRITE "Frame2Masked",DATA_MASK,16,0,16,16
+
+GRAB_PALETTE "Main"
+
+; If we want we can force a palette entry (will create the palette if its not already there): <Palette Name>, index, R, G, B (in 0 - 255 range), if <Palette Name> is omitted it will set it on the working palette
+; Can also use <Palette Name?, index, samColour to set directly in the sam coupe colour format
+SET_PALETTE 0, 255, 255, 255
+SET_PALETTE "Main", 15, 255, 255, 255
+
+; Test the sam colour setting
+SET_PALETTE 1, 127
+SET_PALETTE "Main", 1, 63
+
+; Now we can export all the data into the ASM format
+OUTPUTALL_ASM "Data\Sprites.s"
+
+; We can do additional work if we want, lets clear all the current stored data as we have already saved it 
+CLEAR_DATA
+
+; Load the image
+LOAD "Data\TestImage.png"
+
+; Now grab all the data again (We could just not use the CLEAR_DATA and not grab them all again, but as a test)
+GRAB_SPRITE "Image",DATA
+GRAB_SPRITE "Frame1",DATA,0,0,16,16
+GRAB_SPRITE "Frame2",DATA,16,0,16,16
+GRAB_SPRITE "Frame1Masked",MASK_DATA,0,0,16,16
+GRAB_SPRITE "Frame2Masked",DATA_MASK,16,0,16,16
+
+GRAB_PALETTE "Main"
+
+; Now rather than OUTPUT all the data straight away, lets open an asm file
+OPENASM "Data\Sprites2.s"
+
+; We can write our own information to the asm as well
+WRITEASM ";This was created using the GFXConverter"
+
+; We can now export the data we want
+OUTPUT_ASM "Frame1"
+OUTPUT_ASM "Frame2"
+
+; Now close the ASM File
+CLOSEASM
+
+; We can now export the palettes to a seperate file if we wish
+OPENASM "Data\Palettes.s"
+
+OUTPUT_ASM "Main"
+
+CLOSEASM
+
+; We can also write a binary file, this takes the name and also some details regarding the way to export it: <name of binary file>, format
+; Format options are
+; DATA - Only exports the data 
+; OFFSET_DATA - Exports a two byte offset list of all the sprites first, then the data.  The offset is based from the start of the binary file
+; PAGE_OFFSET_DATA - Exports a byte for the page offset, two bytes offset into that page and then all the data. This is useful if the data is bigger than 32k
+OUTPUTALL_BINARY "Data\Sprites.bin", PAGE_OFFSET_DATA
+
+; Once a binary file has been written we can also write out some information into a source file to provide extra information (Like Name and index into an offset table, also name and offset)
+OUTPUTALL_BINARYHEADER "Data\SpriteBinary.s"

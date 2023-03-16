@@ -1,0 +1,9 @@
+{
+  "profiles": {
+    "GfxConverter": {
+      "commandName": "Project",
+      "commandLineArgs": "Script.txt",
+      "workingDirectory": "d:\\projects\\GfxConverter"
+    }
+  }
+}
