@@ -3,7 +3,7 @@
     "GfxConverter": {
       "commandName": "Project",
       "commandLineArgs": "Script.txt",
-      "workingDirectory": "d:\\projects\\GfxConverter"
+      "workingDirectory": "D:\\Projects\\Old School\\Sam Coupe\\GfxConverter"
     }
   }
 }

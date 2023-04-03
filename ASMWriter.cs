@@ -64,6 +64,17 @@ namespace GfxConverter
 			}
 		}
 
+		public void WriteLabel(string label)
+		{
+			if (writer != null)
+			{
+				if ( label.Length > 0 )
+				{
+					writer.WriteLine(MakeValid(label) + labelTerminator);
+				}
+			}
+		}
+
 		public void WriteBlankLine()
 		{
 			if ( writer != null )
@@ -121,7 +132,7 @@ namespace GfxConverter
 				string spaces = new string(' ', textColumn);
 
 				// Write the label
-				writer.WriteLine(MakeValid(name) + labelTerminator);
+				WriteLabel(name);
 
 				// Run through all the data
 				for ( int j = 0; j < data.Length; j += dataBytesPerLine )

@@ -58,6 +58,45 @@ namespace GfxConverter
 
 			writer.WriteBlankLine();
 
+			// Now write out the tileset information
+			string[] tilesetNames = ed.GetTilesetNames();
+
+			foreach (string name in tilesetNames)
+			{
+				// Get the tileset
+				Tileset? tileset = ed.GetTileset(name);
+
+				if (tileset != null)
+				{
+					// Write some basic information
+					writer.WriteDefine("TILESET_" + name + "_TileWidth", tileset.GetWidth());
+					writer.WriteDefine("TILESET_" + name + "_TileHeight", tileset.GetHeight());
+					writer.WriteDefine("TILESET_" + name + "_NumTiles", tileset.GetNumTiles());
+					writer.WriteBlankLine();
+				}
+			}
+
+			writer.WriteBlankLine();
+
+			// Now write out the tilemap information
+			string[] tilemapNames = ed.GetTilemapNames();
+
+			foreach (string name in tilemapNames)
+			{
+				// Get the tilemap
+				Tilemap? tilemap = ed.GetTilemap(name);
+
+				if (tilemap != null)
+				{
+					// Write some basic information
+					writer.WriteDefine("TILEMAP_" + name + "_Width", tilemap.GetWidth());
+					writer.WriteDefine("TILEMAP_" + name + "_Height", tilemap.GetHeight());
+					writer.WriteBlankLine();
+				}
+			}
+
+			writer.WriteBlankLine();
+
 			return true;
 		}
 
@@ -97,8 +136,55 @@ namespace GfxConverter
 				}
 			}
 			
-			writer.WriteBlankLine(); 
-			
+			writer.WriteBlankLine();
+
+			// Now write out the tilesets information
+			string[] tilesetNames = ed.GetTilesetNames();
+
+			foreach (string name in tilesetNames)
+			{
+				// Get the tileset
+				Tileset? tileset = ed.GetTileset(name);
+
+				if (tileset != null)
+				{
+					writer.WriteLabel("TILESET_" + name);
+
+					// Write out all the tiles
+					for (int i = 0; i < tileset.GetNumTiles(); ++i)
+					{
+						SamTile tile = tileset.GetTile(i);
+
+						writer.WriteData("", tile.Serialise());
+					}
+
+					writer.WriteBlankLine();
+				}
+			}
+
+			writer.WriteBlankLine();
+
+			// Now write out the tileamps information
+			string[] tilemapNames = ed.GetTilemapNames();
+
+			foreach (string name in tilemapNames)
+			{
+				// Get the tilemap
+				Tilemap? tilemap = ed.GetTilemap(name);
+
+				if (tilemap != null)
+				{
+					writer.WriteLabel("TILEMAP_" + name);
+
+					// Write out the tilemap
+					writer.WriteData("", tilemap.Serialise());
+
+					writer.WriteBlankLine();
+				}
+			}
+
+			writer.WriteBlankLine();
+
 			return true;
 		}
 

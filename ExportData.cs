@@ -23,6 +23,12 @@ namespace GfxConverter
 		// Array of named sprites
 		private Dictionary<string, SamSprite> sprites = new Dictionary<string, SamSprite>();
 
+		// Array of named tileset
+		private Dictionary<string, Tileset> tilesets = new Dictionary<string, Tileset>();
+
+		// Array of named tilemap
+		private Dictionary<string, Tilemap> tilemaps = new Dictionary<string, Tilemap>();
+
 		// Load a working image
 		public bool LoadImage(string filename)
 		{
@@ -58,6 +64,16 @@ namespace GfxConverter
 		public string[] GetPaletteNames()
 		{
 			return palettes.Keys.ToArray();
+		}
+
+		public string[] GetTilesetNames()
+		{
+			return tilesets.Keys.ToArray();
+		}
+
+		public string[] GetTilemapNames()
+		{
+			return tilemaps.Keys.ToArray();
 		}
 
 		public SamPalette GetWorkingPalette()
@@ -115,6 +131,67 @@ namespace GfxConverter
 			return palettes[name];
 		}
 
+
+		public bool HasTileset(string name)
+		{
+			if (tilesets.ContainsKey(name))
+			{
+				return true;
+			}
+
+			return false;
+		}
+
+		public Tileset? GetTileset(string name)
+		{
+			if (tilesets.ContainsKey(name))
+			{
+				return tilesets[name];
+			}
+
+			return null;
+		}
+
+		public Tileset AddTileset(string name, int width, int height)
+		{
+			if (!tilesets.ContainsKey(name))
+			{
+				tilesets[name] = new Tileset(width, height);
+			}
+
+			return tilesets[name];
+		}
+
+		public bool HasTilemap(string name)
+		{
+			if (tilemaps.ContainsKey(name))
+			{
+				return true;
+			}
+
+			return false;
+		}
+
+		public Tilemap? GetTilemap(string name)
+		{
+			if (tilemaps.ContainsKey(name))
+			{
+				return tilemaps[name];
+			}
+
+			return null;
+		}
+
+		public Tilemap AddTilemap(string name, int width, int height)
+		{
+			if (!tilemaps.ContainsKey(name))
+			{
+				tilemaps[name] = new Tilemap(width, height);
+			}
+
+			return tilemaps[name];
+		}
+
 		public bool HasSprite(string name)
 		{
 			if (sprites.ContainsKey(name))
@@ -169,6 +246,12 @@ namespace GfxConverter
 
 			// Reset the sprites
 			sprites.Clear();
+
+			// Clear the tileset
+			tilesets.Clear();
+
+			// Clear tilemaps
+			tilemaps.Clear();
 
 			// Clear the dictionary of palettes
 			palettes.Clear();
