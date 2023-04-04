@@ -80,6 +80,7 @@ namespace GfxConverter
 
 					if ( tileId == -1 )
 					{
+						Console.WriteLine("Error: Unable to add tile to tileset");
 						return false;
 					}
 

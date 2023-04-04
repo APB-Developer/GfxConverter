@@ -36,7 +36,7 @@ namespace GfxConverter
 				return false;
 			}
 
-			if ( x < 0 || x >= width || y < 0 || y >= width )
+			if ( x < 0 || x >= width || y < 0 || y >= height )
 			{
 				return false;
 			}
