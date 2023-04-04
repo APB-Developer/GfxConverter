@@ -15,6 +15,7 @@ Script myScript = new Script();
 myScript.RegisterHandler("LOAD", new LoadHandler());
 myScript.RegisterHandler("SET_PALETTE", new SetPaletteHandler());
 myScript.RegisterHandler("GRAB_PALETTE", new GrabPaletteHandler());
+myScript.RegisterHandler("CLEAR_PALETTE", new ClearPaletteHandler());
 myScript.RegisterHandler("CLEAR_DATA", new ClearDataHandler());
 myScript.RegisterHandler("GRAB_SPRITE", new GrabSpriteHandler());
 myScript.RegisterHandler("GRAB_BLANK_TILE", new GrabBlankTileHandler());

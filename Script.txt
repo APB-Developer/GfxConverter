@@ -15,6 +15,9 @@ GRAB_SPRITE "Frame2Masked",DATA_MASK,16,0,16,16
 
 GRAB_PALETTE "Main"
 
+; Clear the working palette
+CLEAR_PALETTE
+
 ; If we want we can force a palette entry (will create the palette if its not already there): <Palette Name>, index, R, G, B (in 0 - 255 range), if <Palette Name> is omitted it will set it on the working palette
 ; Can also use <Palette Name?, index, samColour to set directly in the sam coupe colour format
 SET_PALETTE 0, 255, 255, 255
@@ -34,8 +37,10 @@ GRAB_BLANK_TILE "Main", 64, 64, 0, 0, 0
 ; Grab a specific tile: <Tileset Name>, x, y, width, height
 GRAB_TILE "Main", 0, 0, 64, 64
 
-; Load the tile map
-LOAD "Data\tilemap.png"
+; Load the tile map <filename>, options
+; NO_RESET = Dont reset the current working palette
+; NO_ADDITION = Do not add any additional colours to the working palette (Assumes NO_RESET as well)
+LOAD "Data\tilemap.png", NO_ADDITION
 
 ; Grab a tile map from a given tileset: <tilemap name>, <tileset name>, width of tiles, height of tiles
 GRAB_TILEMAP "Main", "Main", 64, 64

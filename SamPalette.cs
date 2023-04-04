@@ -174,34 +174,40 @@ namespace GfxConverter
 		}
 
 		//Extract 16 colours from image
-		public void ExtractFromBitmap(Bitmap bm)
+		public void ExtractFromBitmap(Bitmap bm, bool bResetPal = true, bool bAddToPal = true)
 		{
 			// First Clear all colours
-			numEntries = 0;
+			if ( bResetPal )
+			{
+				numEntries = 0;
+			}
 
 			// Do we have a palette
-			if ( bm.Palette.Entries.Length > 0 )
+			if (bAddToPal)
 			{
-				for (int i = 0; i < bm.Palette.Entries.Length && numEntries < 16; ++i)
+				if (bm.Palette.Entries.Length > 0)
 				{
-					if ( bm.Palette.Entries[i].A == 255 && !IsRGBPresent(bm.Palette.Entries[i]) )
+					for (int i = 0; i < bm.Palette.Entries.Length && numEntries < 16; ++i)
 					{
-						paletteData[numEntries++] = GetSamFromRGB(bm.Palette.Entries[i]);
+						if (bm.Palette.Entries[i].A == 255 && !IsRGBPresent(bm.Palette.Entries[i]))
+						{
+							paletteData[numEntries++] = GetSamFromRGB(bm.Palette.Entries[i]);
+						}
 					}
 				}
-			}
-			else
-			{
-				for ( int y = 0; y < bm.Height && numEntries < 16; ++y)
+				else
 				{
-					for ( int x = 0; x < bm.Width && numEntries < 16; ++x)
+					for (int y = 0; y < bm.Height && numEntries < 16; ++y)
 					{
-						// Get the colour
-						Color c = bm.GetPixel(x, y);
-
-						if (c.A == 255 && !IsRGBPresent(c) )
+						for (int x = 0; x < bm.Width && numEntries < 16; ++x)
 						{
-							paletteData[numEntries++] = GetSamFromRGB(c);
+							// Get the colour
+							Color c = bm.GetPixel(x, y);
+
+							if (c.A == 255 && !IsRGBPresent(c))
+							{
+								paletteData[numEntries++] = GetSamFromRGB(c);
+							}
 						}
 					}
 				}

@@ -30,7 +30,7 @@ namespace GfxConverter
 		private Dictionary<string, Tilemap> tilemaps = new Dictionary<string, Tilemap>();
 
 		// Load a working image
-		public bool LoadImage(string filename)
+		public bool LoadImage(string filename, bool bResetPal = true, bool bAddToPal = false)
 		{
 			try
 			{
@@ -51,7 +51,7 @@ namespace GfxConverter
 				return false;
 			}
 
-			samPalette.ExtractFromBitmap(currentImage);
+			samPalette.ExtractFromBitmap(currentImage, bResetPal, bAddToPal);
 
 			return true;
 		}
